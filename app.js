@@ -13,6 +13,17 @@ let comparisonChartInstance = null;
 // Export Data Cache
 let currentScheduleExportData = [];
 
+// Historical Index Benchmarks (10-Year Annualized CAGR Averages)
+const INDEX_BENCHMARKS = {
+  custom: { name: 'Custom Rate', rate: null },
+  sp500: { name: 'S&P 500 Index', rate: 11.8, desc: 'US Equities ~11.8% 10-Yr CAGR' },
+  ftse_allworld: { name: 'FTSE All-World Index', rate: 8.8, desc: 'Global Equities ~8.8% 10-Yr CAGR' },
+  nasdaq100: { name: 'NASDAQ 100 Index', rate: 16.5, desc: 'US Tech Equities ~16.5% 10-Yr CAGR' },
+  ftse100: { name: 'FTSE 100 Index', rate: 6.2, desc: 'UK Equities ~6.2% 10-Yr CAGR' },
+  uk_house: { name: 'UK Housing Index', rate: 3.8, desc: 'UK Real Estate ~3.8% 10-Yr CAGR' },
+  uk_gilts: { name: 'UK Gilts / Bonds', rate: 2.8, desc: 'UK Treasury Bonds ~2.8% 10-Yr CAGR' }
+};
+
 // DOM Elements - Global Settings
 const form = document.getElementById('calculatorForm');
 const investmentYearsInput = document.getElementById('investmentYears');
@@ -20,6 +31,7 @@ const inflationRateInput = document.getElementById('inflationRate');
 
 // DOM Elements - Asset 1
 const asset1NameInput = document.getElementById('asset1Name');
+const asset1IndexPresetSelect = document.getElementById('asset1IndexPreset');
 const initialPrincipal1Input = document.getElementById('initialPrincipal1');
 const recurringDeposit1Input = document.getElementById('recurringDeposit1');
 const depositFrequency1Select = document.getElementById('depositFrequency1');
@@ -32,6 +44,7 @@ const asset2Panel = document.getElementById('asset2Panel');
 const cardAsset2Summary = document.getElementById('cardAsset2Summary');
 const btnTabAsset2 = document.getElementById('btnTabAsset2');
 const asset2NameInput = document.getElementById('asset2Name');
+const asset2IndexPresetSelect = document.getElementById('asset2IndexPreset');
 const initialPrincipal2Input = document.getElementById('initialPrincipal2');
 const recurringDeposit2Input = document.getElementById('recurringDeposit2');
 const depositFrequency2Select = document.getElementById('depositFrequency2');
@@ -651,6 +664,34 @@ function setupTabs() {
   });
 }
 
+// Setup Index Benchmark Selectors
+function setupIndexPresets() {
+  asset1IndexPresetSelect.addEventListener('change', (e) => {
+    const key = e.target.value;
+    if (key !== 'custom' && INDEX_BENCHMARKS[key]) {
+      interestRate1Input.value = INDEX_BENCHMARKS[key].rate;
+    }
+    processCalculation();
+  });
+
+  asset2IndexPresetSelect.addEventListener('change', (e) => {
+    const key = e.target.value;
+    if (key !== 'custom' && INDEX_BENCHMARKS[key]) {
+      interestRate2Input.value = INDEX_BENCHMARKS[key].rate;
+    }
+    processCalculation();
+  });
+
+  // Revert preset to 'custom' if user manually modifies interest rate
+  interestRate1Input.addEventListener('input', () => {
+    asset1IndexPresetSelect.value = 'custom';
+  });
+
+  interestRate2Input.addEventListener('input', () => {
+    asset2IndexPresetSelect.value = 'custom';
+  });
+}
+
 // Setup Theme Toggle
 function setupThemeToggle() {
   themeToggle.addEventListener('click', () => {
@@ -683,6 +724,10 @@ function init() {
   btnReset.addEventListener('click', () => {
     form.reset();
     enableAsset2Checkbox.checked = true;
+    asset1IndexPresetSelect.value = 'sp500';
+    interestRate1Input.value = INDEX_BENCHMARKS.sp500.rate;
+    asset2IndexPresetSelect.value = 'uk_house';
+    interestRate2Input.value = INDEX_BENCHMARKS.uk_house.rate;
     processCalculation();
   });
 
@@ -690,6 +735,7 @@ function init() {
 
   setupTabs();
   setupThemeToggle();
+  setupIndexPresets();
 
   // Initial calculation
   processCalculation();

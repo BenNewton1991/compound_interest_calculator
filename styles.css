@@ -304,6 +304,16 @@ body {
   margin-left: 28px;
 }
 
+.index-preset-select {
+  font-weight: 600;
+  border-color: var(--border-color);
+  background-color: var(--bg-card);
+}
+
+.index-preset-select:focus {
+  border-color: var(--accent-primary);
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

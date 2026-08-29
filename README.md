@@ -1,12 +1,22 @@
 # Compound Interest & Dual Asset Portfolio Calculator (Ad-Free & Local)
 
-A clean, modern, ad-free web application for calculating compound interest, modeling multi-asset portfolios (e.g. Real Estate + Investment Portfolio), comparing return rates side-by-side, and projecting long-term combined net worth. Runs 100% locally on your computer with no tracking, no ads, and no external server requirements.
+A clean, modern, ad-free web application for calculating compound interest, modeling multi-asset portfolios (e.g. Real Estate + Investment Portfolio), tracking historical market index benchmarks, comparing return rates side-by-side, and projecting long-term combined net worth. Runs 100% locally on your computer with no tracking, no ads, and no external server requirements.
 
 ## Features
 
+- 📈 **Historical Index Benchmark Tracking**:
+  - Automatically forecast rates based on 10-year historical annualized CAGR averages for major global indexes:
+    - **S&P 500 Index** (~11.8% 10-yr CAGR)
+    - **UK Housing Index** (~3.8% 10-yr CAGR - Nationwide House Price Index)
+    - **FTSE All-World Index** (~8.8% 10-yr CAGR)
+    - **NASDAQ 100 Index** (~16.5% 10-yr CAGR)
+    - **FTSE 100 Index** (~6.2% 10-yr CAGR)
+    - **UK Gilts / Treasury Bonds** (~2.8% 10-yr CAGR)
+    - **Custom / Manual Rate** (Full user control)
+
 - 🏠 **Dual Compounding Assets Support**:
-  - **Asset 1 (e.g. Liquid Finances)**: Model stocks or savings compounding at higher rates (e.g. 10% with $30,000 added annually).
-  - **Asset 2 (e.g. House / Real Estate)**: Model property appreciation compounding at lower rates (e.g. 2% with $1,600 added annually).
+  - **Asset 1 (e.g. Liquid Finances)**: Model stocks or savings compounding at benchmark rates (e.g. S&P 500 at 11.8% with $30,000 added annually).
+  - **Asset 2 (e.g. House / Real Estate)**: Model property appreciation compounding at benchmark rates (e.g. UK Housing Index at 3.8% with $1,600 added annually).
   - Custom rename inputs for each asset.
   - Enable/Disable toggle to easily switch between single asset and dual asset modes.
 

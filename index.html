@@ -59,13 +59,29 @@
             </div>
 
             <div class="form-group">
-              <label for="initialPrincipal1">Starting Value / Principal ($)</label>
+              <label for="asset1IndexPreset">
+                Benchmark / Index Track
+                <span class="tooltip-trigger" title="Track historical 10-year average annual return (CAGR) for major indexes">ℹ️</span>
+              </label>
+              <select id="asset1IndexPreset" class="index-preset-select">
+                <option value="custom">Custom / Manual Rate</option>
+                <option value="sp500" selected>S&P 500 (US Equities ~11.8% 10-yr avg)</option>
+                <option value="ftse_allworld">FTSE All-World (Global Equities ~8.8% 10-yr avg)</option>
+                <option value="nasdaq100">NASDAQ 100 (US Tech Equities ~16.5% 10-yr avg)</option>
+                <option value="ftse100">FTSE 100 (UK Equities ~6.2% 10-yr avg)</option>
+                <option value="uk_house">UK Housing Index (UK Real Estate ~3.8% 10-yr avg)</option>
+                <option value="uk_gilts">UK Gilts / Bonds (~2.8% 10-yr avg)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="initialPrincipal1">Starting Value / Principal ($/£)</label>
               <input type="number" id="initialPrincipal1" min="0" step="100" value="10000" required>
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="recurringDeposit1">Regular Contribution ($)</label>
+                <label for="recurringDeposit1">Regular Contribution ($/£)</label>
                 <input type="number" id="recurringDeposit1" min="0" step="50" value="30000">
               </div>
 
@@ -83,7 +99,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="interestRate1">Return Rate (%)</label>
-                <input type="number" id="interestRate1" min="-50" max="100" step="0.1" value="10.0" required>
+                <input type="number" id="interestRate1" min="-50" max="100" step="0.1" value="11.8" required>
               </div>
 
               <div class="form-group">
@@ -117,13 +133,29 @@
             </div>
 
             <div class="form-group">
-              <label for="initialPrincipal2">Starting Equity / Value ($)</label>
+              <label for="asset2IndexPreset">
+                Benchmark / Index Track
+                <span class="tooltip-trigger" title="Track historical 10-year average annual return (CAGR) for major indexes">ℹ️</span>
+              </label>
+              <select id="asset2IndexPreset" class="index-preset-select">
+                <option value="custom">Custom / Manual Rate</option>
+                <option value="uk_house" selected>UK Housing Index (UK Real Estate ~3.8% 10-yr avg)</option>
+                <option value="sp500">S&P 500 (US Equities ~11.8% 10-yr avg)</option>
+                <option value="ftse_allworld">FTSE All-World (Global Equities ~8.8% 10-yr avg)</option>
+                <option value="ftse100">FTSE 100 (UK Equities ~6.2% 10-yr avg)</option>
+                <option value="nasdaq100">NASDAQ 100 (US Tech Equities ~16.5% 10-yr avg)</option>
+                <option value="uk_gilts">UK Gilts / Bonds (~2.8% 10-yr avg)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="initialPrincipal2">Starting Equity / Value ($/£)</label>
               <input type="number" id="initialPrincipal2" min="0" step="100" value="300000">
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label for="recurringDeposit2">Regular Added ($)</label>
+                <label for="recurringDeposit2">Regular Added ($/£)</label>
                 <input type="number" id="recurringDeposit2" min="0" step="50" value="1600">
               </div>
 
@@ -141,7 +173,7 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="interestRate2">Appreciation Rate (%)</label>
-                <input type="number" id="interestRate2" min="-50" max="100" step="0.1" value="2.0">
+                <input type="number" id="interestRate2" min="-50" max="100" step="0.1" value="3.8">
               </div>
 
               <div class="form-group">
