@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compound Interest & Dual Asset Calculator | Local & Ad-Free</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js CDN with offline fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-icon">📈</div>
+        <div>
+          <h1>Compound Interest Calculator</h1>
+          <p class="subtitle">Ad-free local financial projections with dual asset compounding</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="btn-icon" title="Toggle Theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left Panel: Inputs -->
+      <section class="card input-section">
+        <h2>Parameters</h2>
+        
+        <form id="calculatorForm" onsubmit="return false;">
+          <!-- Global Duration Settings -->
+          <div class="form-section-title">Timeline & Inflation</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="investmentYears">
+                Years to Grow
+                <span class="tooltip-trigger" title="Total investment duration in years for both assets">ℹ️</span>
+              </label>
+              <input type="number" id="investmentYears" min="1" max="100" step="1" value="20" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inflationRate">
+                Est. Inflation (%)
+                <span class="tooltip-trigger" title="Annual inflation rate to project purchasing power">ℹ️</span>
+              </label>
+              <input type="number" id="inflationRate" min="0" max="20" step="0.1" value="2.5">
+            </div>
+          </div>
+
+          <!-- Primary Asset (Asset 1) -->
+          <div class="asset-card asset-1-card">
+            <div class="asset-card-header">
+              <span class="asset-badge asset-1-badge">Asset 1</span>
+              <input type="text" id="asset1Name" class="asset-name-input" value="Finances & Investments" placeholder="Asset Name">
+            </div>
+
+            <div class="form-group">
+              <label for="initialPrincipal1">Starting Value / Principal ($)</label>
+              <input type="number" id="initialPrincipal1" min="0" step="100" value="10000" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recurringDeposit1">Regular Contribution ($)</label>
+                <input type="number" id="recurringDeposit1" min="0" step="50" value="30000">
+              </div>
+
+              <div class="form-group">
+                <label for="depositFrequency1">Frequency</label>
+                <select id="depositFrequency1">
+                  <option value="1" selected>Annually</option>
+                  <option value="12">Monthly</option>
+                  <option value="26">Bi-Weekly</option>
+                  <option value="52">Weekly</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="interestRate1">Return Rate (%)</label>
+                <input type="number" id="interestRate1" min="-50" max="100" step="0.1" value="10.0" required>
+              </div>
+
+              <div class="form-group">
+                <label for="compoundFrequency1">Compounding</label>
+                <select id="compoundFrequency1">
+                  <option value="1">Annually</option>
+                  <option value="2">Semi-Annually</option>
+                  <option value="4">Quarterly</option>
+                  <option value="12" selected>Monthly</option>
+                  <option value="365">Daily</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toggle for Asset 2 -->
+          <div class="form-group toggle-asset2-group">
+            <label class="checkbox-container">
+              <input type="checkbox" id="enableAsset2" checked>
+              <span class="checkmark"></span>
+              <strong class="toggle-label">Add 2nd Compounding Asset</strong>
+            </label>
+            <p class="field-hint">e.g. House compounding at 2% with $1,600 added/year</p>
+          </div>
+
+          <!-- Secondary Asset (Asset 2) -->
+          <div class="asset-card asset-2-card" id="asset2Panel">
+            <div class="asset-card-header">
+              <span class="asset-badge asset-2-badge">Asset 2</span>
+              <input type="text" id="asset2Name" class="asset-name-input" value="House & Real Estate" placeholder="Asset Name">
+            </div>
+
+            <div class="form-group">
+              <label for="initialPrincipal2">Starting Equity / Value ($)</label>
+              <input type="number" id="initialPrincipal2" min="0" step="100" value="300000">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recurringDeposit2">Regular Added ($)</label>
+                <input type="number" id="recurringDeposit2" min="0" step="50" value="1600">
+              </div>
+
+              <div class="form-group">
+                <label for="depositFrequency2">Frequency</label>
+                <select id="depositFrequency2">
+                  <option value="1" selected>Annually</option>
+                  <option value="12">Monthly</option>
+                  <option value="26">Bi-Weekly</option>
+                  <option value="52">Weekly</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="interestRate2">Appreciation Rate (%)</label>
+                <input type="number" id="interestRate2" min="-50" max="100" step="0.1" value="2.0">
+              </div>
+
+              <div class="form-group">
+                <label for="compoundFrequency2">Compounding</label>
+                <select id="compoundFrequency2">
+                  <option value="1" selected>Annually</option>
+                  <option value="2">Semi-Annually</option>
+                  <option value="4">Quarterly</option>
+                  <option value="12">Monthly</option>
+                  <option value="365">Daily</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Multi-Rate Comparison Inputs -->
+          <div class="form-group comparison-setting">
+            <label for="comparisonRates">
+              Asset 1 Rate Scenarios (%)
+              <span class="tooltip-trigger" title="Compare return rates for Asset 1 (e.g. 4, 6, 8, 10, 12)">ℹ️</span>
+            </label>
+            <input type="text" id="comparisonRates" value="4, 6, 8, 10, 12" placeholder="e.g. 4, 6, 8, 10">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btnCalculate" class="btn btn-primary">Calculate Growth</button>
+            <button type="button" id="btnReset" class="btn btn-secondary">Reset Defaults</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Panel: Results & Visualizations -->
+      <section class="results-section">
+        <!-- Summary Cards Grid -->
+        <div class="summary-cards" id="summaryCardsGrid">
+          <div class="card summary-card primary">
+            <span class="card-label" id="lblCombinedValue">Combined Total Value</span>
+            <span class="card-value" id="resCombinedValue">$0</span>
+            <span class="card-sub" id="resInflationAdjusted">Real Power: $0</span>
+          </div>
+
+          <div class="card summary-card asset1-summary">
+            <span class="card-label" id="lblAsset1Value">Asset 1 Value</span>
+            <span class="card-value" id="resAsset1Value">$0</span>
+            <span class="card-sub" id="resAsset1Sub">Interest: $0</span>
+          </div>
+
+          <div class="card summary-card asset2-summary" id="cardAsset2Summary">
+            <span class="card-label" id="lblAsset2Value">Asset 2 Value</span>
+            <span class="card-value" id="resAsset2Value">$0</span>
+            <span class="card-sub" id="resAsset2Sub">Appreciation: $0</span>
+          </div>
+
+          <div class="card summary-card">
+            <span class="card-label">Total Contributions</span>
+            <span class="card-value" id="resTotalContributions">$0</span>
+            <span class="card-sub" id="resContributionsSub">Added: $0</span>
+          </div>
+
+          <div class="card summary-card accent">
+            <span class="card-label">Total Growth / Interest</span>
+            <span class="card-value" id="resTotalInterest">$0</span>
+            <span class="card-sub" id="resInterestPercentage">0% of net worth</span>
+          </div>
+        </div>
+
+        <!-- Visualizations Tabs -->
+        <div class="card chart-container-card">
+          <div class="tab-header">
+            <button class="tab-btn active" data-tab="tabCombined">Combined Growth</button>
+            <button class="tab-btn" data-tab="tabAsset1">Asset 1 Breakdown</button>
+            <button class="tab-btn" id="btnTabAsset2" data-tab="tabAsset2">Asset 2 Breakdown</button>
+            <button class="tab-btn" data-tab="tabComparison">Multi-Rate Comparison</button>
+            <button class="tab-btn" data-tab="tabSchedule">Annual Schedule</button>
+          </div>
+
+          <!-- Tab 1: Combined Growth Chart -->
+          <div id="tabCombined" class="tab-content active">
+            <div class="chart-wrapper">
+              <canvas id="combinedChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 2: Asset 1 Growth Chart -->
+          <div id="tabAsset1" class="tab-content">
+            <div class="chart-wrapper">
+              <canvas id="asset1Chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 3: Asset 2 Growth Chart -->
+          <div id="tabAsset2" class="tab-content">
+            <div class="chart-wrapper">
+              <canvas id="asset2Chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Tab 4: Rate Comparison Chart & Table -->
+          <div id="tabComparison" class="tab-content">
+            <div class="chart-wrapper">
+              <canvas id="comparisonChart"></canvas>
+            </div>
+            <div class="table-wrapper comparison-table-container">
+              <table class="data-table" id="comparisonTable">
+                <thead>
+                  <tr>
+                    <th>Asset 1 Rate</th>
+                    <th>Total Contributions</th>
+                    <th>Asset 1 Final</th>
+                    <th>Combined Final</th>
+                    <th>Diff vs Base</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab 5: Detailed Annual Schedule Table -->
+          <div id="tabSchedule" class="tab-content">
+            <div class="schedule-actions">
+              <button id="btnExportCSV" class="btn btn-small">📥 Export Schedule to CSV</button>
+            </div>
+            <div class="table-wrapper schedule-table-container">
+              <table class="data-table" id="scheduleTable">
+                <thead>
+                  <tr id="scheduleTableHeader">
+                    <th>Year</th>
+                    <th>Asset 1 End</th>
+                    <th>Asset 2 End</th>
+                    <th>Combined Total</th>
+                    <th>Annual Added</th>
+                    <th>Total Interest/Growth</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>100% Local Compound Interest & Portfolio Calculator • No Ads • No Tracking • Works Offline</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
