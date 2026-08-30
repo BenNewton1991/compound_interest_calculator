@@ -139,6 +139,13 @@ function formatCurrency(amount) {
   }).format(amount || 0);
 }
 
+function formatCompactCurrency(amount) {
+  const absoluteAmount = Math.abs(amount);
+  if (absoluteAmount >= 1000000) return `£${(amount / 1000000).toFixed(1)}m`;
+  if (absoluteAmount >= 1000) return `£${(amount / 1000).toFixed(0)}k`;
+  return `£${amount}`;
+}
+
 function formatPercent(value) {
   return `${(value || 0).toFixed(1)}%`;
 }
@@ -359,13 +366,13 @@ function renderAssetCards() {
       </div>
 
       <div class="form-group">
-        <label>Starting Value / Principal ($/£)</label>
+        <label>Starting Value / Principal (£)</label>
         <input type="number" data-field="principal" min="0" step="100" value="${asset.principal}" required>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label>Regular Contribution ($/£)</label>
+          <label>Regular Contribution (£)</label>
           <input type="number" data-field="deposit" min="0" step="50" value="${asset.deposit}">
         </div>
 
@@ -500,7 +507,7 @@ function renderDebtCards() {
 
       <div class="form-row">
         <div class="form-group">
-          <label>Starting Balance ($/£)</label>
+          <label>Starting Balance (£)</label>
           <input type="number" data-field="principal" min="0" step="100" value="${debt.principal}">
         </div>
 
@@ -541,8 +548,8 @@ function renderDebtCards() {
       </div>
 
       <div class="debt-calc-preview" id="preview_${debt.id}">
-        <span>Annual Payment: <strong class="debt-annual-val">$0/yr</strong></span>
-        <span>Total Interest: <strong class="debt-interest-val">$0</strong></span>
+        <span>Annual Payment: <strong class="debt-annual-val">£0/yr</strong></span>
+        <span>Total Interest: <strong class="debt-interest-val">£0</strong></span>
       </div>
     `;
 
@@ -929,7 +936,7 @@ function renderCombinedChart(combinedSchedule, calculatedAssets, calculatedDebts
           grid: { color: gridColor },
           ticks: {
             color: textColor,
-            callback: value => '$' + (value >= 1000 ? (value / 1000) + 'k' : value)
+            callback: value => formatCompactCurrency(value)
           }
         }
       }
@@ -1028,7 +1035,7 @@ function renderAssetBreakdownChart(asset) {
           grid: { color: gridColor },
           ticks: {
             color: textColor,
-            callback: value => '$' + (value >= 1000 ? (value / 1000) + 'k' : value)
+            callback: value => formatCompactCurrency(value)
           }
         }
       }
@@ -1125,7 +1132,7 @@ function renderDebtBreakdownChart(debt) {
           grid: { color: gridColor },
           ticks: {
             color: textColor,
-            callback: value => '$' + (value >= 1000 ? (value / 1000) + 'k' : value)
+            callback: value => formatCompactCurrency(value)
           }
         }
       }
@@ -1264,7 +1271,7 @@ function renderComparisonChart(scenarioResults, years, baseRate) {
           grid: { color: gridColor },
           ticks: {
             color: textColor,
-            callback: value => '$' + (value >= 1000 ? (value / 1000) + 'k' : value)
+            callback: value => formatCompactCurrency(value)
           }
         }
       }
