@@ -38,6 +38,17 @@ const INDEX_BENCHMARKS = {
   uk_gilts: { name: 'UK Gilts / Bonds', rate: 2.8, desc: 'UK Treasury Bonds ~2.8% 10-Yr CAGR' }
 };
 
+// Typical UK loan examples. All values remain editable after selecting a preset.
+const DEBT_PRESETS = {
+  custom: { name: 'Custom Debt / Loan' },
+  mortgage: { name: 'Average UK Mortgage', principal: 200000, rate: 4.5, termYears: 25, paymentFreq: 12, paymentModel: 'amortized' },
+  car_finance: { name: 'Average Car Finance', principal: 20000, rate: 8.9, termYears: 4, paymentFreq: 12, paymentModel: 'amortized' },
+  personal_loan: { name: 'Average Personal Loan', principal: 10000, rate: 9.9, termYears: 5, paymentFreq: 12, paymentModel: 'amortized' },
+  student_loan: { name: 'UK Student Loan Example', principal: 45000, rate: 4.3, termYears: 30, paymentFreq: 12, paymentModel: 'amortized' },
+  credit_card: { name: 'Average Credit Card Balance', principal: 2500, rate: 24.9, termYears: 3, paymentFreq: 12, paymentModel: 'amortized' },
+  payday_loan: { name: 'Typical Payday Loan', principal: 300, rate: 99.9, termYears: 1, paymentFreq: 12, paymentModel: 'amortized' }
+};
+
 // Application State
 let nextAssetId = 3;
 let nextDebtId = 2;
@@ -69,6 +80,7 @@ let debtsState = [
   {
     id: 'debt_1',
     name: 'Fixed Loan / Mortgage',
+    preset: 'custom',
     principal: 10000,
     rate: 2.5,
     termYears: 5,
@@ -122,7 +134,7 @@ const btnExportCSV = document.getElementById('btnExportCSV');
 function formatCurrency(amount) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'GBP',
     maximumFractionDigits: 0
   }).format(amount || 0);
 }
@@ -473,6 +485,19 @@ function renderDebtCards() {
         <button type="button" class="btn-remove-card" data-action="remove-debt" title="Remove Debt">✕</button>
       </div>
 
+      <div class="form-group">
+        <label>Loan Type</label>
+        <select class="debt-preset-select" data-field="preset">
+          <option value="custom" ${debt.preset === 'custom' ? 'selected' : ''}>Custom / Manual Values</option>
+          <option value="mortgage" ${debt.preset === 'mortgage' ? 'selected' : ''}>Average UK Mortgage (25 yr, 4.5%)</option>
+          <option value="car_finance" ${debt.preset === 'car_finance' ? 'selected' : ''}>Average Car Finance (4 yr, 8.9%)</option>
+          <option value="personal_loan" ${debt.preset === 'personal_loan' ? 'selected' : ''}>Average Personal Loan (5 yr, 9.9%)</option>
+          <option value="student_loan" ${debt.preset === 'student_loan' ? 'selected' : ''}>UK Student Loan Example (30 yr, 4.3%)</option>
+          <option value="credit_card" ${debt.preset === 'credit_card' ? 'selected' : ''}>Average Credit Card Balance (3 yr, 24.9%)</option>
+          <option value="payday_loan" ${debt.preset === 'payday_loan' ? 'selected' : ''}>Typical Payday Loan (1 yr, 99.9%)</option>
+        </select>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label>Starting Balance ($/£)</label>
@@ -481,7 +506,7 @@ function renderDebtCards() {
 
         <div class="form-group">
           <label>Interest Rate (%)</label>
-          <input type="number" data-field="rate" min="0" max="100" step="0.1" value="${debt.rate}">
+          <input type="number" data-field="rate" min="0" max="999" step="0.1" value="${debt.rate}">
         </div>
       </div>
 
@@ -523,6 +548,7 @@ function renderDebtCards() {
 
     // Bind event listeners
     const nameInput = card.querySelector('[data-field="name"]');
+    const presetSelect = card.querySelector('[data-field="preset"]');
     const principalInput = card.querySelector('[data-field="principal"]');
     const rateInput = card.querySelector('[data-field="rate"]');
     const termYearsInput = card.querySelector('[data-field="termYears"]');
@@ -531,23 +557,54 @@ function renderDebtCards() {
     const paymentModelSelect = card.querySelector('[data-field="paymentModel"]');
     const removeBtn = card.querySelector('[data-action="remove-debt"]');
 
+    const setCustomPreset = () => {
+      debt.preset = 'custom';
+      presetSelect.value = 'custom';
+    };
+
+    presetSelect.addEventListener('change', (e) => {
+      const preset = DEBT_PRESETS[e.target.value];
+      debt.preset = e.target.value;
+
+      if (e.target.value !== 'custom' && preset) {
+        debt.name = preset.name;
+        debt.principal = preset.principal;
+        debt.rate = preset.rate;
+        debt.termYears = preset.termYears;
+        debt.paymentFreq = preset.paymentFreq;
+        debt.paymentModel = preset.paymentModel;
+        nameInput.value = debt.name;
+        principalInput.value = debt.principal;
+        rateInput.value = debt.rate;
+        termYearsInput.value = debt.termYears;
+        paymentFreqSelect.value = debt.paymentFreq;
+        paymentModelSelect.value = debt.paymentModel;
+      }
+
+      processCalculation();
+    });
+
     nameInput.addEventListener('input', (e) => {
       debt.name = e.target.value;
+      setCustomPreset();
       processCalculation();
     });
 
     principalInput.addEventListener('input', (e) => {
       debt.principal = parseFloat(e.target.value) || 0;
+      setCustomPreset();
       processCalculation();
     });
 
     rateInput.addEventListener('input', (e) => {
       debt.rate = parseFloat(e.target.value) || 0;
+      setCustomPreset();
       processCalculation();
     });
 
     termYearsInput.addEventListener('input', (e) => {
       debt.termYears = parseInt(e.target.value, 10) || 1;
+      setCustomPreset();
       processCalculation();
     });
 
@@ -558,11 +615,13 @@ function renderDebtCards() {
 
     paymentFreqSelect.addEventListener('change', (e) => {
       debt.paymentFreq = parseInt(e.target.value, 10);
+      setCustomPreset();
       processCalculation();
     });
 
     paymentModelSelect.addEventListener('change', (e) => {
       debt.paymentModel = e.target.value;
+      setCustomPreset();
       processCalculation();
     });
 
@@ -608,6 +667,7 @@ function addDebt() {
   debtsState.push({
     id: newId,
     name: `Loan ${idx + 1}`,
+    preset: 'custom',
     principal: 10000,
     rate: 3.0,
     termYears: 5,
