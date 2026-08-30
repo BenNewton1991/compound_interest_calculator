@@ -756,7 +756,7 @@ function processCalculation() {
     cardDebtSummary.classList.remove('hidden');
     btnTabDebt.classList.remove('hidden');
     if (totalFinalDebt <= 0.01) {
-      resDebtSummaryValue.textContent = 'All Debt Cleared ($0)';
+      resDebtSummaryValue.textContent = formatCurrency(0);
       resDebtSummarySub.textContent = `Orig: ${formatCurrency(totalInitialDebt)} | Int Paid: ${formatCurrency(totalDebtInterestPaid)}`;
     } else {
       resDebtSummaryValue.textContent = `${formatCurrency(totalFinalDebt)} Remaining`;
