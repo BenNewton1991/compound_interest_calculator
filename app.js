@@ -1429,5 +1429,11 @@ function init() {
   processCalculation();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+// Robust execution whether DOM is already loaded or still loading
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
 

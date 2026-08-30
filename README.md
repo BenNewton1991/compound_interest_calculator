@@ -40,17 +40,28 @@ A clean, modern, ad-free web application for calculating compound interest, mode
   - Fully responsive for desktop and mobile.
   - Zero ads, no tracking, works completely offline.
 
-## How to Run
+## How to Run & Deploy
 
-1. **Direct File Open (Easiest)**:
-   Simply double-click `index.html` in your file explorer to open it in any web browser (Chrome, Edge, Firefox, Safari).
+### 1. Run Live on GitHub (GitHub Pages)
+To make your app run live on GitHub for free:
+1. Push your repository to GitHub.
+2. On GitHub, go to your repository **Settings**.
+3. In the left sidebar, click **Pages** (under *Code and automation*).
+4. Under **Build and deployment** -> **Branch**:
+   - Select **`main`** (or `master`) branch.
+   - Select **`/(root)`** directory.
+   - Click **Save**.
+5. After 1-2 minutes, GitHub will give you a live URL: `https://<your-username>.github.io/<your-repo-name>/`.
 
-2. **Local Web Server (Optional)**:
-   You can also serve it with VS Code Live Server or Python:
-   ```bash
-   python -m http.server 8000
-   ```
-   Then navigate to `http://localhost:8000` in your web browser.
+> **Note on Folder Structure**: Ensure `index.html`, `styles.css`, and `app.js` are located in the **root** folder of the GitHub repository (not inside a subfolder).
+
+### 2. Run Directly on Your Computer (Offline / Local)
+- Simply double-click `index.html` in your file explorer to open it in any web browser (Chrome, Edge, Firefox, Safari).
+- Or serve locally:
+  ```bash
+  python -m http.server 8000
+  ```
+  Then navigate to `http://localhost:8000`.
 
 ---
 *Created for fast, local, ad-free financial planning.*
