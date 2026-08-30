@@ -1,8 +1,19 @@
-# Compound Interest & Dual Asset Portfolio Calculator (Ad-Free & Local)
+# Compound Interest & Multi-Asset Portfolio Calculator (Ad-Free & Local)
 
-A clean, modern, ad-free web application for calculating compound interest, modeling multi-asset portfolios (e.g. Real Estate + Investment Portfolio), tracking historical market index benchmarks, comparing return rates side-by-side, and projecting long-term combined net worth. Runs 100% locally on your computer with no tracking, no ads, and no external server requirements.
+A clean, modern, ad-free web application for calculating compound interest, modeling multi-asset portfolios (e.g. Stocks, Real Estate, Crypto, Pensions, Savings), tracking historical market index benchmarks, modeling multiple fixed-term debt / loan liabilities, comparing return rates side-by-side, and projecting long-term combined net worth. Runs 100% locally on your computer with no tracking, no ads, and no external server requirements.
 
 ## Features
+
+- ➕ **Unlimited Assets & Investments Support**:
+  - Click **"+ Add Asset"** to add as many compounding assets as you need (Asset 1, Asset 2, Asset 3, etc.).
+  - Customize each asset's name, starting balance, regular contributions, contribution frequency, return rate, and compounding frequency.
+  - Delete any asset (minimum 1 retained).
+
+- ➕ **Unlimited Debts & Loan Liabilities**:
+  - Click **"+ Add Debt"** to model mortgages, auto loans, credit lines, or student debt.
+  - Set starting debt balance, interest rate, payoff term (e.g. 5 years), start year, payment frequency, and repayment plan (Amortized vs Interest-Only).
+  - Live calculation of annual debt payments and total interest cost.
+  - Delete debts with the **✕** button.
 
 - 📈 **Historical Index Benchmark Tracking**:
   - Automatically forecast rates based on 10-year historical annualized CAGR averages for major global indexes:
@@ -14,21 +25,15 @@ A clean, modern, ad-free web application for calculating compound interest, mode
     - **UK Gilts / Treasury Bonds** (~2.8% 10-yr CAGR)
     - **Custom / Manual Rate** (Full user control)
 
-- 🏠 **Dual Compounding Assets Support**:
-  - **Asset 1 (e.g. Liquid Finances)**: Model stocks or savings compounding at benchmark rates (e.g. S&P 500 at 11.8% with $30,000 added annually).
-  - **Asset 2 (e.g. House / Real Estate)**: Model property appreciation compounding at benchmark rates (e.g. UK Housing Index at 3.8% with $1,600 added annually).
-  - Custom rename inputs for each asset.
-  - Enable/Disable toggle to easily switch between single asset and dual asset modes.
-
 - 📊 **Individual & Combined Visualizations**:
-  - **Combined Net Worth Chart**: Displays stacked visual growth of Asset 1 + Asset 2 over time to project total wealth.
-  - **Asset 1 Breakdown Chart**: Stacked breakdown of Initial Principal, Contributions Added, and Interest Earned for Asset 1.
-  - **Asset 2 Breakdown Chart**: Stacked breakdown of Initial Value, Contributions Added, and Appreciation for Asset 2.
-  - **Rate Scenario Comparison**: Multi-line graph comparing return rates (e.g. 4%, 6%, 8%, 10%, 12%) for Asset 1.
+  - **Net Worth & Growth Chart**: Displays stacked visual growth of all active assets alongside debt liability bars and a continuous Net Worth trajectory line.
+  - **Asset Breakdowns Tab**: Switch between any active asset using the dropdown selector to inspect its principal, contributions, and growth breakdown.
+  - **Debt Breakdowns Tab**: Switch between any active debt to inspect its payoff amortization curve and payment schedule table.
+  - **Rate Scenario Comparison**: Multi-line graph comparing return rates for Asset 1.
 
 - 📅 **Detailed Annual Schedule & CSV Export**:
-  - Annual breakdown table showing Asset 1 Ending Balance, Asset 2 Ending Balance, Combined Net Worth, Annual Contributions, and Total Interest/Appreciation.
-  - One-click **Export to CSV** button downloading the complete multi-asset projection schedule.
+  - Comprehensive annual breakdown table showing each asset's ending balance, total gross assets, each debt's ending balance, total liabilities, combined net worth, annual contributions added, annual debt payments, and total net growth.
+  - One-click **Export to CSV** button downloading the complete dynamic schedule for all active assets and debts.
 
 - 🌙 **Modern UI & Theme Toggle**:
   - Built-in Dark Mode and Light Mode toggle.
@@ -39,6 +44,16 @@ A clean, modern, ad-free web application for calculating compound interest, mode
 
 1. **Direct File Open (Easiest)**:
    Simply double-click `index.html` in your file explorer to open it in any web browser (Chrome, Edge, Firefox, Safari).
+
+2. **Local Web Server (Optional)**:
+   You can also serve it with VS Code Live Server or Python:
+   ```bash
+   python -m http.server 8000
+   ```
+   Then navigate to `http://localhost:8000` in your web browser.
+
+---
+*Created for fast, local, ad-free financial planning.*
 
 2. **Local Web Server (Optional)**:
    You can also serve it with VS Code Live Server or Python:
