@@ -616,3 +616,153 @@ select:focus {
   border-top: 1px solid var(--border-color);
 }
 
+@media (max-width: 640px) {
+  .app-container {
+    gap: 16px;
+    padding: 12px;
+  }
+
+  .app-header {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .header-brand {
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .logo-icon {
+    font-size: 1.4rem;
+    padding: 6px 9px;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
+  }
+
+  .btn-icon {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+  }
+
+  .card {
+    border-radius: var(--radius-md);
+    padding: 16px;
+  }
+
+  .section-header-flex {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .asset-card {
+    padding: 12px;
+  }
+
+  .asset-card-header {
+    gap: 8px;
+  }
+
+  .asset-name-input {
+    min-width: 0;
+  }
+
+  .debt-calc-preview,
+  .tab-sub-controls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sub-control-label {
+    white-space: normal;
+  }
+
+  .sub-control-select {
+    max-width: none;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .summary-card {
+    padding: 14px;
+  }
+
+  .card-value {
+    font-size: 1.4rem;
+  }
+
+  .chart-container-card {
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .tab-header {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .tab-btn {
+    min-height: 46px;
+    padding: 8px;
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .chart-wrapper {
+    height: 280px;
+  }
+
+  .data-table {
+    font-size: 0.8rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 9px 12px;
+  }
+
+  .schedule-actions {
+    display: block;
+  }
+
+  .schedule-actions .btn {
+    width: 100%;
+  }
+
+  .app-footer {
+    font-size: 0.75rem;
+    padding: 12px 4px;
+  }
+}
+
+@media (max-width: 420px) {
+  .form-row,
+  .form-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    margin-top: 18px;
+  }
+
+  .section-header-flex {
+    flex-direction: column;
+  }
+
+  .section-header-flex .btn {
+    width: 100%;
+  }
+}
+
