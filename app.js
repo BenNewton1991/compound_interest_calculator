@@ -14,6 +14,8 @@ let comparisonChartInstance = null;
 // Export Data Cache
 let currentScheduleExportData = [];
 
+const STORAGE_KEY = 'compound-interest-calculator-state-v1';
+
 // Color Palette for Assets
 const ASSET_COLORS = [
   { bg: '#38bdf8', border: '#0284c7' }, // Sky Blue
@@ -59,7 +61,7 @@ let assetsState = [
     name: 'Finances & Investments',
     preset: 'sp500',
     principal: 10000,
-    deposit: 30000,
+    deposit: 100,
     depositFreq: 1, // Annually
     rate: 11.8,
     compoundFreq: 12 // Monthly
@@ -69,7 +71,7 @@ let assetsState = [
     name: 'House & Real Estate',
     preset: 'uk_house',
     principal: 300000,
-    deposit: 1600,
+    deposit: 100,
     depositFreq: 1, // Annually
     rate: 3.8,
     compoundFreq: 1 // Annually
@@ -89,6 +91,45 @@ let debtsState = [
     paymentModel: 'amortized'
   }
 ];
+
+function saveCalculatorState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      assetsState,
+      debtsState,
+      nextAssetId,
+      nextDebtId,
+      investmentYears: investmentYearsInput.value,
+      inflationRate: inflationRateInput.value,
+      comparisonRates: comparisonRatesInput.value,
+      theme: document.documentElement.getAttribute('data-theme')
+    }));
+  } catch (error) {
+    // Storage can be unavailable in private or restricted browser contexts.
+  }
+}
+
+function restoreCalculatorState() {
+  try {
+    const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!savedState || !Array.isArray(savedState.assetsState) || !Array.isArray(savedState.debtsState)) return;
+
+    assetsState = savedState.assetsState;
+    debtsState = savedState.debtsState;
+    nextAssetId = Number.isInteger(savedState.nextAssetId) ? savedState.nextAssetId : assetsState.length + 1;
+    nextDebtId = Number.isInteger(savedState.nextDebtId) ? savedState.nextDebtId : debtsState.length + 1;
+    investmentYearsInput.value = savedState.investmentYears || investmentYearsInput.value;
+    inflationRateInput.value = savedState.inflationRate || inflationRateInput.value;
+    comparisonRatesInput.value = savedState.comparisonRates || comparisonRatesInput.value;
+
+    if (savedState.theme === 'light' || savedState.theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', savedState.theme);
+      themeToggle.querySelector('.theme-icon').textContent = savedState.theme === 'dark' ? '🌙' : '☀️';
+    }
+  } catch (error) {
+    // Use the built-in defaults if saved data is missing, corrupt, or unavailable.
+  }
+}
 
 // DOM Elements - Global Settings
 const form = document.getElementById('calculatorForm');
@@ -649,7 +690,7 @@ function addAsset() {
     name: `Asset ${idx + 1}`,
     preset: 'custom',
     principal: 5000,
-    deposit: 200,
+    deposit: 100,
     depositFreq: 12,
     rate: 7.0,
     compoundFreq: 12
@@ -850,6 +891,8 @@ function processCalculation() {
       inflationRate
     });
   }
+
+  saveCalculatorState();
 }
 
 // Render Combined Chart (Stacked Assets, Stacked Debts, Net Worth Line)
@@ -1440,13 +1483,19 @@ function init() {
   btnAddDebt.addEventListener('click', addDebt);
 
   btnReset.addEventListener('click', () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (error) {
+      // The default reset still works when browser storage is unavailable.
+    }
+
     assetsState = [
       {
         id: 'asset_1',
         name: 'Finances & Investments',
         preset: 'sp500',
         principal: 10000,
-        deposit: 30000,
+        deposit: 100,
         depositFreq: 1,
         rate: 11.8,
         compoundFreq: 12
@@ -1456,7 +1505,7 @@ function init() {
         name: 'House & Real Estate',
         preset: 'uk_house',
         principal: 300000,
-        deposit: 1600,
+        deposit: 100,
         depositFreq: 1,
         rate: 3.8,
         compoundFreq: 1
@@ -1490,7 +1539,9 @@ function init() {
   setupTabs();
   setupThemeToggle();
 
-  // Render initial cards and calculate
+  restoreCalculatorState();
+
+  // Render initial or restored cards and calculate
   renderAssetCards();
   renderDebtCards();
   processCalculation();
